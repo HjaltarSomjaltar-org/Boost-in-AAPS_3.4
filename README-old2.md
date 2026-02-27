@@ -3,27 +3,13 @@
 * Check the wiki: https://wiki.aaps.app
 * Everyone who's been looping with AndroidAPS needs to fill out the form after 3 days of looping https://docs.google.com/forms/d/14KcMjlINPMJHVt28MDRupa4sz4DDIooI4SrW0P3HSN8/viewform?c=0&w=1
 
-[![Support Server](https://img.shields.io/discord/629952586895851530.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/Yvbu4k43)
+[![Support Server](https://img.shields.io/discord/629952586895851530.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/4fQUWHZ4Mw)
 
 ***Boost V2 based on AAPS 3.4.0.0***
 
 Boost V2 is a variant of the Boost plugin that uses **Chris Wilson's DynISF V2 formula** for ISF calculation. It can be installed alongside the original Boost plugin so that you can compare outputs before switching.
 
 All Boost-specific settings, including Dynamic ISF V2, Night Mode, and Step Counting, are consolidated within the Boost V2 preferences screen as sub-screens.
-
-This release also includes a **new Boost Overview UI** — a redesigned home screen tailored for Boost users, with at-a-glance algorithm status, larger graphs, and tappable detail panels. See the [Boost Overview UI](#boost-overview-ui) section below.
-
----
-
-## What's new in this release?
-
-### Boostv2 Plugin using DynISF V2
-
-**Important:** When starting with DynISF V2 — set the **TDD adjustment factor to 100%** as your starting point. This gives you the unmodified formula output. Adjust up or down from there based on your results. Do not carry over your V1 adjustment factor, as the squared TDD term means the same percentage has a much larger effect in V2 (so if your value is below 100%, it produces significantly larger ISF values).
-
-### Boost Overview UI
-
-A new home screen designed specifically for Boost, replacing the standard AAPS Overview with a layout that puts algorithm decisions front and centre. See [Boost Overview UI](#boost-overview-ui) for full details.
 
 ---
 
@@ -60,55 +46,6 @@ Because TDD is squared in the V2 formula, ISF is **much more responsive to TDD c
 * V2 will self-adjust more aggressively as your TDD changes day to day.
 * It is strongly recommended to **log-compare V1 and V2 output side by side** before running V2 live.
 * TDD data is mandatory for V2. If TDD data is incomplete, V2 falls back to your profile ISF.
-* **Start with an adjustment factor of 100%** and adjust from there.
-
----
-
-## Boost Overview UI
-
-The Boost Overview UI is a redesigned home screen that replaces the standard AAPS Overview when enabled. It is purpose-built for Boost, giving you immediate visibility of the algorithm's decisions without needing to navigate to the Boost tab or read log output.
-
-### Enabling the Boost Overview UI
-
-To enable the new UI, go to **Preferences → Overview → Advanced Settings → Use Boost Overview**. When this toggle is on, the HOME tab will display the Boost Overview instead of the standard AAPS Overview. Turning it off reverts to the standard layout. 
-
-For the setting to take effect, switch tabs or restart the app.
-
-### Layout
-
-The screen is organised into four sections from top to bottom: status area, detail panels, graphs, and action buttons.
-
-**Status area** — The top of the screen shows three elements side by side. On the left, pump reservoir level, battery, cannula age and sensor age. In the centre, a large BG bobble displaying your current glucose value with a colour-coded ring (green when in range, yellow when high, red when urgent high or low). A trend chevron on the right side of the bobble rotates to show the direction and speed of glucose change. On the right, the time since last reading and a loop status icon.
-
-Below the bobble, a delta line shows the current rate of change and trend description (e.g. "-0.2 · stable").
-
-**Detail panels — Row 1** shows four tappable panels: IOB, Boost Tier, DynISF, and Profile.
-
-* **IOB** — Current insulin on board in units, coloured in the IOB theme colour. Tap to see the breakdown of bolus IOB and basal IOB.
-* **Boost Tier** — The current Boost decision tier (e.g. "Regular oref1", "Percent Scale", "UAM Boost"), colour-coded by tier. Tap to see the full decision reason and delta acceleration value.
-* **DynISF** — The current variable sensitivity value from the algorithm, displayed in your chosen units (mg/dL or mmol/L). Tap to see the full algorithm inputs: BG, weighted TDD, insulin divisor, and TDD history.
-* **Profile** — Your active profile name and percentage. Tap to open the Profile Viewer. Long-press to open the Profile Switch dialog.
-
-**Detail panels — Row 2** shows three tappable panels centred below: TDD, Target, and Exercise.
-
-* **TDD** — The total daily dose used by the algorithm. This is sourced from Boost's own "Final TDD" calculation (which includes the weighted 8-hour blend and adjustment factor), not the simple 7-day average. Tap to see all TDD values: the algorithm's weighted TDD, the parsed Final TDD from Boost's debug output, the 7-day average, and the 24-hour total, along with the raw script debug text for verification.
-* **Target** — Your current target BG in your chosen units. The value is coloured green when it matches your profile target, amber when the APS algorithm has adjusted it (e.g. due to sensitivity/resistance), and orange when a temporary target is active. Tap to open the Temp Target dialog.
-* **Exercise** — The current Boost activity/exercise state. When Boost is active, this shows the exercise detection result: "INACTIVE - 140%" (inactivity detected, profile raised), "Active" (activity detected, profile lowered), or "Normal". When Boost itself is not running, it shows the reason: "Outside window" (outside Boost hours), or "Sleep-in" (sleep-in protection active). Tap to see the full state, profile percentage, and raw script debug output.
-
-**Graphs** — A single card contains two graphs stacked vertically with a thin divider between them.
-
-* **BG graph** (upper, larger) — Shows BG readings, predictions, treatments, temp basals, target line, and in-range shading, using the same data and overlays as the standard AAPS graph. Long-press to cycle the time range (6h → 12h → 18h → 24h → 6h). A chart menu button (top right) lets you toggle overlay layers. A scale button (top left) shows the current time range.
-* **IOB graph** (lower, compact) — Shows IOB history as a stepped area chart with projected decay, sharing the same time axis as the BG graph. An "IOB" label is overlaid in the top-left corner.
-
-Both graphs use subtle grid lines (20% opacity) to keep the data prominent without visual clutter.
-
-A single tap on the upper graph brings up the Treatment History window.
-
-**Action buttons** — Below the graphs, the standard AAPS action buttons are shown: Quick Wizard, Insulin, Carbs, Calculator, Treatment, Calibration, and CGM. Automation user action buttons appear in a row above these when configured. All buttons follow the same visibility rules and protection checks as the standard Overview.
-
-### Data sourcing
-
-The Boost Overview reads algorithm data directly from the last APS run result. For Boost-specific values that are not part of the standard AAPS data model (such as the Final TDD, exercise mode, and tier), the UI parses the `scriptDebug` output that Boost writes on each loop iteration. This means the panels always reflect the most recent algorithm decision. If Boost has not yet run (e.g. immediately after app start), panels will show placeholder values until the first loop completes.
 
 ---
 
@@ -122,7 +59,7 @@ The following settings are available in the Dynamic ISF V2 sub-screen:
 * *Adjust Sensitivity* — Adjust sensitivity ratio using 24h TDD / 7D TDD, similar to Autosens. Recommended to start with this off.
 * *DynISF normal target (mg/dl)* — Reference BG target for the ISF calculation. Default: 99.
 * *DynISF BG cap* — BG above this value is softened to reduce ISF aggressiveness at very high BG. Default: 210.
-* *TDD adjustment factor (%)* — Scales the blended TDD value up or down before ISF calculation. **Start at 100%** and adjust from there. Do not carry over your V1 adjustment factor.
+* *TDD adjustment factor (%)* — Scales the blended TDD value up or down before ISF calculation. Default: 100.
 
 Note that the **BG impact on ISF** slider from V1 is not present in V2. The full BG-driven adjustment is always applied.
 
@@ -255,7 +192,6 @@ The settings with the largest effect on post prandial outcomes are *Boost insuli
 
 Start with the same settings as Boost V1. Because the V2 formula amplifies TDD changes, you may find V2 doses more aggressively on days with higher TDD and less aggressively on lower TDD days. Monitor closely and adjust as needed.
 
-* *TDD adjustment factor* — **Start at 100%**. This is the most important setting to get right first. Increase if V2 is under-dosing, decrease if over-dosing. Small changes (5–10%) have a meaningful effect due to the squared TDD term.
 * *Boost Bolus Cap* — Start at 2.5% of TDD and increase to no more than 15% of 7 day average total daily dose.
 * *Percent scale factor* — Once you are familiar with the percentage scale factor, the values can be increased up to 500% with associated increase in hypo risk with rises that are not linked to food.
 * *UAM Boost max IOB* — Start at 5% of TDD and be aware that max IOB is a safety feature, and higher values create greater risk of hypo.
@@ -290,8 +226,6 @@ There is a setting in the Boost V2 preferences called **"Allow all BG sources fo
 ## Running V1 and V2 side by side
 
 Boost V2 is registered as a separate plugin in AAPS. You can switch between Boost and Boost V2 in the Config Builder. Only one can be active at a time, but both are available for selection. It is recommended to compare log outputs from both plugins before committing to V2 for live use.
-
-The standalone DynISF V2 plugin can also be used independently with OpenAPSSMB if you want the updated formula without the Boost tier system.
 
 ---
 
