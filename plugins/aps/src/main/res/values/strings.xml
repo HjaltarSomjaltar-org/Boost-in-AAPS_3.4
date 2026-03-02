@@ -50,7 +50,7 @@
     <string name="boost_max_iob_title">Boost Max IOB</string>
     <string name="boost_max_iob_summary">Maximum IOB for accelerated bolusing. Above this, regular oref1 used. Default: 1.0 U</string>
     <string name="boost_start_title">Boost Start Time</string>
-    <string name="boost_start_summary">Start of the Boost active window (24h format HH:mm). Default: 22:00</string>
+    <string name="boost_start_summary">Start of the Boost active window (24h format HH:mm). Default: 07:00</string>
     <string name="boost_end_title">Boost End Time</string>
     <string name="boost_end_summary">End of the Boost active window (24h format HH:mm). Default: 07:00</string>
     <string name="boost_enable_percent_scale_title">Enable Boost Percentage Scaling</string>
